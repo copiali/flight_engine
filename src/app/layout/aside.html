@@ -1,0 +1,107 @@
+﻿<div class="wrapper">
+    <button class="btn-menu btn btn-sm pull-right visible-xs" ng-click="isCollapsed = !isCollapsed"><i class="fa fa-bars"></i></button>
+    <h4 class="m-tb-0"><i class="fa fa-plane"></i>Book Flights</h4>
+</div>
+<div collapse="isCollapsed" class="aside-content">
+    <div class="row search-box left-panel">
+        <div class="col-xs-12">
+            <ul id="generalTab" class="nav nav-tabs">
+                <li data-ng-class="{'active': vm.filter.type==='oneway'}">
+                    <a href data-ng-click="vm.tabClick('oneway')">One Way</a>
+                </li>
+                <li data-ng-class="{'active': vm.filter.type==='return'}">
+                    <a href data-ng-click="vm.tabClick('return')">Return</a>
+                </li>
+            </ul>
+            <div id="generalTabContent" class="tab-content">
+                <div id="alert-tab" class="tab-pane fade in active">
+                    <form class="form-body row">
+                        <div class="form-group col-md-12">
+                            <label class="control-label">From:</label>
+                            <input type="text"
+                                   placeholder="City"
+                                   ng-model="vm.searchFields.from"
+                                   typeahead="flight.from for flight in vm.flights| unique:'from' | filter:{'from':$viewValue} | limitTo:5" class="search-input">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="control-label">To:</label>
+                            <input type="text"
+                                   placeholder="City"
+                                   ng-model="vm.searchFields.to"
+                                   typeahead="flight.to for flight in vm.flights| unique:'to' | filter:{'to':$viewValue} | limitTo:5" class="search-input">
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="control-label">Depart:</label>
+                            <div class="input-icon">
+                                <i class="fa fa-calendar"></i>
+
+                                <input type="text"
+                                       class="search-input"
+                                       datepicker-popup="dd/MM/yyyy"
+                                       ng-model="vm.searchFields.depart"
+                                       onkeydown="return false;"
+                                       is-open="departOpen"
+                                       data-ng-click="departOpen=true"
+                                       placeholder="date"
+                                       min-date="vm.today"
+                                       max-date="vm.searchFields.back"
+                                       datepicker-options="vm.dateOptions"
+                                       close-text="Close" />
+
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12" data-ng-show="vm.filter.type==='return'">
+                            <label class="control-label">Return:</label>
+                            <div class="input-icon">
+                                <i class="fa fa-calendar"></i>
+
+                                <input type="text"
+                                       class="search-input"
+                                       datepicker-popup="dd/MM/yyyy"
+                                       ng-model="vm.searchFields.back"
+                                       is-open="returnOpen" data-ng-click="returnOpen=true"
+                                       placeholder="date"
+                                       min-date="vm.searchFields.depart"
+                                       datepicker-options="vm.dateOptions"
+                                       onkeydown="return false;"
+                                       close-text="Close" />
+
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label class="control-label">Passenger(s)</label>
+                            <div class="search-select">
+                                <span>{{vm.searchFields.passenger}}</span>
+                                <select ng-model="vm.searchFields.passenger" ng-options="item for item in vm.passDrpDown"></select>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-12 text-center search-button">
+                            <button type="submit" class="btn btn-info" data-ng-click="vm.search()">Search<i class="fa fa-search"></i></button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row refine-box left-panel">
+        <div class="col-md-12">
+            <div class="bg-white">
+                <div class="title">Refine Flight Search</div>
+                <div class="slider-container">
+                    <slider ng-model="vm.filter.min"
+                            ng-model-range="vm.filter.max"
+                            translate-fn="vm.currencyFormatting"
+                            floor="1"
+                            ceiling="1000">
+                    </slider>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>  

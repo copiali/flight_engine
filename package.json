@@ -1,0 +1,26 @@
+{
+  "name": "FligtSearchEngine",
+  "version": "1.0.0",
+  "description": "AngularJS Flight Search Engine",
+  "scripts": {
+    "start": "node node_modules/http-server/bin/http-server -o"
+  },
+  "keywords": [
+    "AngularJS Grunt Flight"
+  ],
+  "author": "Copia Li",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-changelog": "^0.3.0",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-concat": "^0.5.0",
+    "grunt-contrib-copy": "^0.7.0",
+    "grunt-contrib-uglify": "^0.7.0",
+    "grunt-recess": "^1.0.0",
+    "gruntfile-gtx": "^0.3.0",
+    "http-server": "^0.6.1",
+    "require-directory": "^2.0.0"
+  }
+}

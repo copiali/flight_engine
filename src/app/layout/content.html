@@ -1,0 +1,143 @@
+﻿<div class="wrapper bg-white">
+    <h4 class="m-tb-0 pull-left text-info">Recent Flights</h4>
+    <h5 class="m-tb-0 pull-right m-l-10" data-ng-show="vm.filter.type==='return'"><span class="text-info">Return: </span>{{(vm.filter.back|date:'dd/MM/yyyy')||'ANY'}}</h5>
+    <h5 class="m-tb-0 pull-right"><span class="text-info">Depart: </span>{{(vm.filter.depart|date:'dd/MM/yyyy')||'ANY'}}</h5>   
+</div>
+<div class="row flight-list">
+    <div class="col-xs-12 box" data-ng-repeat="flight in vm.flights| fligtFilter: vm.filter|startFrom: vm.currentPage*vm.pageSize | limitTo:vm.pageSize">
+        <ng-switch on="flight.type">
+            <div class="details-wrapper" ng-switch-when="oneway">
+                <div class="first-row">
+                    <div>
+                        <h4 class="box-title">
+                            {{flight.from}} <i class="fa fa-long-arrow-right"></i> {{flight.to}}<small>Oneway flight</small>
+                        </h4>
+                        <img class="{{flight.airLine}} hidden-xs" data-ng-src="images/airlinelogo/{{flight.airLine}}.png" />
+                    </div>
+                    <div class="action text-center">
+                        <button class="btn btn-sm btn-info">BOOK NOW</button>
+                    </div>
+
+                </div>
+                <div class="second-row">
+                    <div class="time">
+                        <div class="row">
+                            <div class="flight col-sm-1">
+                                <div>
+                                    {{flight.flight}}
+                                </div>
+                            </div>
+                            <div class="take-off col-sm-4">
+                                <div>
+                                    <i class="fa fa-plane"></i>
+                                    <span class="text-info">{{flight.from}}</span><br>{{flight.takeOff| date:'medium'}}
+                                </div>
+                            </div>
+                            <div class="landing col-sm-4">
+                                <div>
+                                    <i class="fa fa-plane"></i>
+                                    <span class="text-info">{{flight.to}}</span><br>{{flight.landing| date:'medium'}}
+                                </div>
+                            </div>
+                            <div class="total-time col-sm-3">
+                                <div>
+                                    <i class="fa fa-clock-o"></i>
+                                    <span class="text-info">total time</span><br>{{vm.timediff(flight.takeOff,flight.landing)}}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="price-tag">
+                        <img class="{{flight.airLine}}" data-ng-src="images/airlinelogo/{{flight.airLine}}.png" />
+                        <span class="price"><small>AVG/PERSON</small>${{flight.price||'N/A'}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="details-wrapper" ng-switch-when="return">
+
+                <div class="first-row">
+                    <div>
+                        <h4 class="box-title">{{flight.from}} <i class="fa fa-exchange"></i> {{flight.to}}<small>Return</small></h4>
+                        <img class="{{flight.airLine}} hidden-xs" data-ng-src="images/airlinelogo/{{flight.airLine}}.png" />
+                    </div>
+                    <div class="action text-center">
+                        <button class="btn btn-sm btn-info">BOOK NOW</button>
+                    </div>
+
+                </div>
+                <div class="second-row">
+                    <div class="time">
+                        <div class="row">
+                            <div class="flight col-sm-1">
+                                <div>
+                                    {{flight.flight_depart}}
+                                </div>
+                            </div>
+                            <div class="take-off col-sm-4">
+                                <div>
+                                    <i class="fa fa-plane"></i>
+                                    <span class="text-info">{{flight.from}}</span><br>{{flight.takeOff_depart| date:'medium'}}
+                                </div>
+                            </div>
+                            <div class="landing col-sm-4">
+                                <div>
+                                    <i class="fa fa-plane"></i>
+                                    <span class="text-info">{{flight.to}}</span><br>{{flight.landing_depart| date:'medium'}}
+                                </div>
+                            </div>
+                            <div class="total-time col-sm-3">
+
+                                <div>
+                                    <i class="fa fa-clock-o"></i>
+                                    <span class="text-info">total time</span><br>{{vm.timediff(flight.takeOff_depart,flight.landing_depart)}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row return-row">
+                            <div class="flight col-sm-1">
+                                <div>
+                                    {{flight.flight_return}}
+                                </div>
+                            </div>
+                            <div class="take-off col-sm-4">
+                                <div>
+                                    <i class="fa fa-plane"></i>
+                                    <span class="text-info">{{flight.to}}</span><br>{{flight.takeOff_return| date:'medium'}}
+                                </div>
+                            </div>
+                            <div class="landing col-sm-4">
+                                <div>
+                                    <i class="fa fa-plane"></i>
+                                    <span class="text-info">{{flight.from}}</span><br>{{flight.landing_return| date:'medium'}}
+                                </div>
+                            </div>
+                            <div class="total-time col-sm-3">
+
+                                <div>
+                                    <i class="fa fa-clock-o"></i>
+                                    <span class="text-info">total time</span><br>{{vm.timediff(flight.takeOff_return,flight.landing_return)}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="price-tag">
+                        <img class="{{flight.airLine}} hidden-sm" data-ng-src="images/airlinelogo/{{flight.airLine}}.png" />
+                        <span class="price"><small>AVG/PERSON</small>${{flight.price||'N/A'}}</span>
+                    </div>
+                </div>
+            </div>
+        </ng-switch>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 text-right m-b-15">
+        <span class="font-bold" data-ng-show="vm.flights.length">{{vm.currentPage+1}}/{{vm.numberOfPages((vm.flights |fligtFilter:vm.filter).length)+'(Total:'+(vm.flights |fligtFilter:vm.filter).length+')'}}</span>
+        <div class="btn-group m-r-15">
+            <button type="button" class="btn btn-sm  btn-default" ng-click="vm.currentPage=vm.currentPage-1" ng-disabled="vm.currentPage == 0"><i class="fa fa-chevron-left"></i></button>
+            <button type="button" class="btn btn-sm  btn-default" ng-click="vm.currentPage=vm.currentPage+1" ng-disabled="vm.currentPage >= (vm.flights | fligtFilter: vm.filter).length/vm.pageSize - 1"><i class="fa fa-chevron-right"></i></button>
+        </div>
+    </div>
+</div>
